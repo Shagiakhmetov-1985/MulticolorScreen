@@ -34,32 +34,35 @@ class OptionsViewController: UIViewController {
     }()
     
     private lazy var labelNumberRed: UILabel = {
-        let label = setupLabel(text: "0.00", size: 13)
+        let label = setupLabel(text: "0.00", size: 16)
         return label
     }()
     
     private lazy var labelNumberGreen: UILabel = {
-        let label = setupLabel(text: "0.00", size: 13)
+        let label = setupLabel(text: "0.00", size: 16)
         return label
     }()
     
     private lazy var labelNumberBlue: UILabel = {
-        let label = setupLabel(text: "0.00", size: 13)
+        let label = setupLabel(text: "0.00", size: 16)
         return label
     }()
     
     private lazy var sliderRed: UISlider = {
         let slider = setupSlider(color: .systemRed)
+        slider.addTarget(self, action: #selector(sliderValue), for: .valueChanged)
         return slider
     }()
     
     private lazy var sliderGreen: UISlider = {
         let slider = setupSlider(color: .systemGreen)
+        slider.addTarget(self, action: #selector(sliderValue), for: .valueChanged)
         return slider
     }()
     
     private lazy var sliderBlue: UISlider = {
         let slider = setupSlider(color: .systemBlue)
+        slider.addTarget(self, action: #selector(sliderValue), for: .valueChanged)
         return slider
     }()
     
@@ -90,10 +93,14 @@ class OptionsViewController: UIViewController {
         return button
     }()
     
+    var delegate: BackgroundViewControllerDelegate!
+    var currentColor: UIColor!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDesign()
         setupConstraints()
+        acceptColorFromMain()
     }
     
     private func setupDesign() {
@@ -112,11 +119,76 @@ class OptionsViewController: UIViewController {
         }
     }
     
+    @objc private func sliderValue(_ sender: UISlider) {
+        setupViewColor()
+        
+        switch sender {
+        case sliderRed:
+            setupLabelText(from: sliderRed)
+            setupTextFieldText(from: sliderRed)
+        case sliderGreen:
+            setupLabelText(from: sliderGreen)
+            setupTextFieldText(from: sliderGreen)
+        default:
+            setupLabelText(from: sliderBlue)
+            setupTextFieldText(from: sliderBlue)
+        }
+    }
+    
+    private func setupViewColor() {
+        viewMultiColor.backgroundColor = UIColor(
+            red: CGFloat(sliderRed.value),
+            green: CGFloat(sliderGreen.value),
+            blue: CGFloat(sliderBlue.value),
+            alpha: 1)
+    }
+    
+    private func setupLabelText(from sliders: UISlider...) {
+        sliders.forEach { slider in
+            switch slider {
+            case sliderRed: labelNumberRed.text = string(from: sliderRed)
+            case sliderGreen: labelNumberGreen.text = string(from: sliderGreen)
+            default: labelNumberBlue.text = string(from: sliderBlue)
+            }
+        }
+    }
+    
+    private func setupTextFieldText(from sliders: UISlider...) {
+        sliders.forEach { slider in
+            switch slider {
+            case sliderRed: textFieldRed.text = string(from: sliderRed)
+            case sliderGreen: textFieldGreen.text = string(from: sliderGreen)
+            default: textFieldBlue.text = string(from: sliderBlue)
+            }
+        }
+    }
+    
+    private func string(from slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+    
     @objc private func done() {
+        delegate.setupColor(color: viewMultiColor.backgroundColor ?? .white)
         dismiss(animated: true)
     }
+    
+    @objc private func doneButton() {
+        view.endEditing(true)
+    }
+    
+    private func acceptColorFromMain() {
+        viewMultiColor.backgroundColor = currentColor
+        
+        let color = CIColor(color: currentColor)
+        sliderRed.value = Float(color.red)
+        sliderGreen.value = Float(color.green)
+        sliderBlue.value = Float(color.blue)
+        
+        setupLabelText(from: sliderRed, sliderGreen, sliderBlue)
+        setupTextFieldText(from: sliderRed, sliderGreen, sliderBlue)
+    }
 }
-
+// MARK: - Setup contraints
 extension OptionsViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -148,7 +220,7 @@ extension OptionsViewController {
         
         NSLayoutConstraint.activate([
             labelNumberGreen.centerYAnchor.constraint(equalTo: labelGreen.centerYAnchor),
-            labelNumberGreen.leadingAnchor.constraint(equalTo: labelGreen.trailingAnchor, constant: 10)
+            labelNumberGreen.leadingAnchor.constraint(equalTo: labelGreen.trailingAnchor, constant: 15)
         ])
         
         NSLayoutConstraint.activate([
@@ -158,37 +230,37 @@ extension OptionsViewController {
         
         NSLayoutConstraint.activate([
             sliderRed.centerYAnchor.constraint(equalTo: labelRed.centerYAnchor),
-            sliderRed.leadingAnchor.constraint(equalTo: labelNumberRed.trailingAnchor, constant: 15),
-            sliderRed.widthAnchor.constraint(equalToConstant: 170)
+            sliderRed.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 120),
+            sliderRed.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
         ])
         
         NSLayoutConstraint.activate([
             sliderGreen.centerYAnchor.constraint(equalTo: labelGreen.centerYAnchor),
-            sliderGreen.leadingAnchor.constraint(equalTo: labelNumberGreen.trailingAnchor, constant: 15),
-            sliderGreen.widthAnchor.constraint(equalToConstant: 170)
+            sliderGreen.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 120),
+            sliderGreen.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
         ])
         
         NSLayoutConstraint.activate([
             sliderBlue.centerYAnchor.constraint(equalTo: labelBlue.centerYAnchor),
-            sliderBlue.leadingAnchor.constraint(equalTo: labelNumberBlue.trailingAnchor, constant: 15),
-            sliderBlue.widthAnchor.constraint(equalToConstant: 170)
+            sliderBlue.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 120),
+            sliderBlue.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -100)
         ])
         
         NSLayoutConstraint.activate([
             textFieldRed.centerYAnchor.constraint(equalTo: labelRed.centerYAnchor),
-            textFieldRed.leadingAnchor.constraint(equalTo: sliderRed.trailingAnchor, constant: 10),
+            textFieldRed.leadingAnchor.constraint(equalTo: sliderRed.trailingAnchor, constant: 15),
             textFieldRed.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             textFieldGreen.centerYAnchor.constraint(equalTo: labelGreen.centerYAnchor),
-            textFieldGreen.leadingAnchor.constraint(equalTo: sliderGreen.trailingAnchor, constant: 10),
+            textFieldGreen.leadingAnchor.constraint(equalTo: sliderGreen.trailingAnchor, constant: 15),
             textFieldGreen.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
             textFieldBlue.centerYAnchor.constraint(equalTo: labelBlue.centerYAnchor),
-            textFieldBlue.leadingAnchor.constraint(equalTo: sliderBlue.trailingAnchor, constant: 10),
+            textFieldBlue.leadingAnchor.constraint(equalTo: sliderBlue.trailingAnchor, constant: 15),
             textFieldBlue.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
@@ -200,7 +272,7 @@ extension OptionsViewController {
         ])
     }
 }
-
+// MARK: - Subviews
 extension OptionsViewController {
     private func setupLabel(text: String, size: CGFloat) -> UILabel {
         let label = UILabel()
@@ -227,7 +299,64 @@ extension OptionsViewController {
         textField.text = text
         textField.font = UIFont.systemFont(ofSize: 15)
         textField.textAlignment = .center
+        textField.keyboardType = .decimalPad
+        textField.delegate = self
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }
+}
+// MARK: - Work with textFields, UITextFieldDelegate
+extension OptionsViewController: UITextFieldDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let newValue = textField.text else { return }
+        
+        if let value = Float(newValue) {
+            switch textField {
+            case textFieldRed:
+                sliderRed.setValue(value, animated: true)
+                sliderValue(sliderRed)
+            case textFieldGreen:
+                sliderGreen.setValue(value, animated: true)
+                sliderValue(sliderGreen)
+            default:
+                sliderBlue.setValue(value, animated: true)
+                sliderValue(sliderBlue)
+            }
+            return
+        }
+        
+        showAlert(title: "Wrong format!", message: "Please type correct format: '0.00'")
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let keyboardToolBar = UIToolbar()
+        textField.inputAccessoryView = keyboardToolBar
+        keyboardToolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(
+            title: "Done",
+            style: .done,
+            target: self,
+            action: #selector(doneButton))
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil)
+        
+        keyboardToolBar.items = [flexBarButton, doneButton]
+    }
+}
+
+extension OptionsViewController {
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }
