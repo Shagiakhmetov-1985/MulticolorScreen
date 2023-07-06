@@ -12,6 +12,16 @@ protocol BackgroundViewControllerDelegate {
 }
 
 class BackgroundViewController: UIViewController {
+    private lazy var labelHEX: UILabel = {
+        let label = setupLabel(text: "", size: 23)
+        return label
+    }()
+    
+    private lazy var labelRGB: UILabel = {
+        let label = setupLabel(text: "", size: 23)
+        return label
+    }()
+    
     var currentColor: UIColor!
     
     override func viewDidLoad() {
@@ -19,6 +29,7 @@ class BackgroundViewController: UIViewController {
         setupNavigationController()
         setupBarButton()
         setupDesign()
+        setupConstraints()
     }
     
     private func setupNavigationController() {
@@ -46,6 +57,14 @@ class BackgroundViewController: UIViewController {
             green: color.green,
             blue: color.blue,
             alpha: 1)
+        setupSubviews(subviews: labelHEX, labelRGB)
+        setupData(red: color.red, green: color.green, blue: color.blue)
+    }
+    
+    private func setupSubviews(subviews: UIView...) {
+        subviews.forEach { subview in
+            view.addSubview(subview)
+        }
     }
     
     @objc private func showOptions() {
@@ -55,6 +74,19 @@ class BackgroundViewController: UIViewController {
         optionsVC.delegate = self
         optionsVC.currentColor = view.backgroundColor
         present(navigationVC, animated: true)
+    }
+    
+    private func labelForHEX(red: CGFloat, green: CGFloat, blue: CGFloat) -> String {
+        UIColor(red: red, green: green, blue: blue, alpha: 1).toHex()
+    }
+    
+    private func labelForRGB(red: CGFloat, green: CGFloat, blue: CGFloat) -> String {
+        UIColor(red: red, green: green, blue: blue, alpha: 1).toRgb()
+    }
+    
+    private func setupData(red: CGFloat, green: CGFloat, blue: CGFloat) {
+        labelHEX.text = labelForHEX(red: red, green: green, blue: blue)
+        labelRGB.text = labelForRGB(red: red, green: green, blue: blue)
     }
 }
 
@@ -68,6 +100,37 @@ extension BackgroundViewController: BackgroundViewControllerDelegate {
         
         let background = Color(red: red, green: green, blue: blue)
         StorageManager.shared.saveBackground(color: background)
+        setupData(red: red, green: green, blue: blue)
     }
 }
 
+extension BackgroundViewController {
+    private func setupLabel(text: String, size: CGFloat) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.textAlignment = .center
+        label.numberOfLines = .zero
+        label.backgroundColor = .white.withAlphaComponent(0.4)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 10
+        label.font = UIFont.systemFont(ofSize: size, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+}
+
+extension BackgroundViewController {
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            labelHEX.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            labelHEX.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            labelHEX.bottomAnchor.constraint(equalTo: labelRGB.topAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            labelRGB.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            labelRGB.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            labelRGB.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+}

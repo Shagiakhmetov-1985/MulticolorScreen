@@ -267,7 +267,7 @@ extension OptionsViewController {
         NSLayoutConstraint.activate([
             buttonDone.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110),
             buttonDone.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonDone.widthAnchor.constraint(equalToConstant: 140),
+            buttonDone.widthAnchor.constraint(equalToConstant: 180),
             buttonDone.heightAnchor.constraint(equalToConstant: 50)
         ])
     }

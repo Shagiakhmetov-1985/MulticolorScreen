@@ -14,6 +14,7 @@
 		C3C11D2A2A5445470097401E /* BackgroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C11D292A5445470097401E /* BackgroundViewController.swift */; };
 		C3C11D2F2A5445480097401E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C11D2E2A5445480097401E /* Assets.xcassets */; };
 		C3C11D3D2A544AA00097401E /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C11D3C2A544AA00097401E /* OptionsViewController.swift */; };
+		C3ECAC1B2A56E65F0077C795 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3ECAC1A2A56E65F0077C795 /* UIColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		C3C11D2E2A5445480097401E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3C11D332A5445480097401E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C3C11D3C2A544AA00097401E /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		C3ECAC1A2A56E65F0077C795 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				C362695D2A55A8020063B37E /* Models */,
 				C3C11D3A2A5445C60097401E /* Applications */,
 				C3C11D3B2A5446320097401E /* ViewControllers */,
+				C3ECAC192A56E64B0077C795 /* UIColor */,
 				C3C11D392A54456A0097401E /* Supporting */,
 			);
 			path = MulticolorScreen;
@@ -108,6 +111,14 @@
 				C3C11D3C2A544AA00097401E /* OptionsViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C3ECAC192A56E64B0077C795 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				C3ECAC1A2A56E65F0077C795 /* UIColor.swift */,
+			);
+			path = UIColor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3C11D2A2A5445470097401E /* BackgroundViewController.swift in Sources */,
+				C3ECAC1B2A56E65F0077C795 /* UIColor.swift in Sources */,
 				C362695C2A55A7FE0063B37E /* Color.swift in Sources */,
 				C3C11D3D2A544AA00097401E /* OptionsViewController.swift in Sources */,
 				C362695A2A5597FD0063B37E /* StorageManager.swift in Sources */,
