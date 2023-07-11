@@ -1,5 +1,5 @@
 //
-//  OptionsViewController.swift
+//  PreviewViewController.swift
 //  MulticolorScreen
 //
 //  Created by Marat Shagiakhmetov on 04.07.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OptionsViewController: UIViewController {
+class PreviewViewController: UIViewController {
     private lazy var labelPreview: UILabel = {
         let label = setupLabel(text: "", size: 21, weight: .semibold)
         return label
@@ -58,7 +58,7 @@ class OptionsViewController: UIViewController {
     }
 }
 // MARK: - Setup contraints
-extension OptionsViewController {
+extension PreviewViewController {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             labelPreview.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -75,7 +75,7 @@ extension OptionsViewController {
     }
 }
 // MARK: - Subviews
-extension OptionsViewController {
+extension PreviewViewController {
     private func setupLabel(text: String, size: CGFloat, weight: UIFont.Weight) -> UILabel {
         let label = UILabel()
         label.text = text
@@ -90,7 +90,7 @@ extension OptionsViewController {
     }
 }
 
-extension OptionsViewController {
+extension PreviewViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         dismiss(animated: true)

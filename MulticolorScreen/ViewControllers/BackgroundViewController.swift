@@ -28,38 +28,38 @@ class BackgroundViewController: UIViewController {
     }()
     
     private lazy var labelRGB: UILabel = {
-        let label = setupLabel(text: "RGB", size: 13, weight: .light,
+        let label = setupLabel(text: "RGB", size: 14, weight: .light,
                                alignment: .center)
         return label
     }()
     
     private lazy var labelRed: UILabel = {
-        let label = setupLabel(text: "Red", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Red", size: 22, weight: .semibold)
         return label
     }()
     
     private lazy var labelRedCode: UILabel = {
-        let label = setupLabel(text: "255", size: 19, weight: .semibold, alignment: .right)
+        let label = setupLabel(text: "255", size: 22, weight: .semibold, alignment: .right)
         return label
     }()
     
     private lazy var labelGreen: UILabel = {
-        let label = setupLabel(text: "Green", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Green", size: 22, weight: .semibold)
         return label
     }()
     
     private lazy var labelGreenCode: UILabel = {
-        let label = setupLabel(text: "255", size: 19, weight: .semibold, alignment: .right)
+        let label = setupLabel(text: "255", size: 22, weight: .semibold, alignment: .right)
         return label
     }()
     
     private lazy var labelBlue: UILabel = {
-        let label = setupLabel(text: "Blue", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Blue", size: 22, weight: .semibold)
         return label
     }()
     
     private lazy var labelBlueCode: UILabel = {
-        let label = setupLabel(text: "255", size: 19, weight: .semibold, alignment: .right)
+        let label = setupLabel(text: "255", size: 22, weight: .semibold, alignment: .right)
         return label
     }()
     
@@ -69,13 +69,13 @@ class BackgroundViewController: UIViewController {
     }()
     
     private lazy var labelValueOfColors: UILabel = {
-        let label = setupLabel(text: "Value of colors", size: 13, weight: .light,
+        let label = setupLabel(text: "Value of colors", size: 14, weight: .light,
                                alignment: .center)
         return label
     }()
     
     private lazy var labelValueRed: UILabel = {
-        let label = setupLabel(text: "Red", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Red", size: 22, weight: .semibold)
         return label
     }()
     
@@ -85,7 +85,7 @@ class BackgroundViewController: UIViewController {
     }()
     
     private lazy var labelValueGreen: UILabel = {
-        let label = setupLabel(text: "Green", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Green", size: 22, weight: .semibold)
         return label
     }()
     
@@ -95,7 +95,7 @@ class BackgroundViewController: UIViewController {
     }()
     
     private lazy var labelValueBlue: UILabel = {
-        let label = setupLabel(text: "Blue", size: 19, weight: .semibold)
+        let label = setupLabel(text: "Blue", size: 22, weight: .semibold)
         return label
     }()
     
@@ -105,13 +105,13 @@ class BackgroundViewController: UIViewController {
     }()
     
     private lazy var labelHEX: UILabel = {
-        let label = setupLabel(text: "HEX", size: 13, weight: .light,
+        let label = setupLabel(text: "HEX", size: 14, weight: .light,
                                alignment: .center)
         return label
     }()
     
     private lazy var labelHEXCode: UILabel = {
-        let label = setupLabel(text: "#FFFFFF", size: 19, weight: .semibold,
+        let label = setupLabel(text: "#FFFFFF", size: 22, weight: .semibold,
                                alignment: .center)
         return label
     }()
@@ -147,11 +147,9 @@ class BackgroundViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .bold)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(showOptions), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showPreview), for: .touchUpInside)
         return button
     }()
-    
-    var currentColor: UIColor!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,6 +162,7 @@ class BackgroundViewController: UIViewController {
     private func setupNavigationController() {
         title = "Multicolor Screen"
         navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9517638087, green: 0.9517638087, blue: 0.9517638087, alpha: 1)
         let appearance = UINavigationBarAppearance()
         navigationController?.navigationBar.standardAppearance = appearance
     }
@@ -203,12 +202,12 @@ class BackgroundViewController: UIViewController {
         }
     }
     
-    @objc private func showOptions() {
-        let optionsVC = OptionsViewController()
-        let navigationVC = UINavigationController(rootViewController: optionsVC)
+    @objc private func showPreview() {
+        let previewVC = PreviewViewController()
+        let navigationVC = UINavigationController(rootViewController: previewVC)
         navigationVC.modalPresentationStyle = .fullScreen
-        optionsVC.delegate = self
-        optionsVC.currentColor = viewMultiColor.backgroundColor
+        previewVC.delegate = self
+        previewVC.currentColor = viewMultiColor.backgroundColor
         present(navigationVC, animated: true)
     }
     
@@ -329,7 +328,7 @@ extension BackgroundViewController {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.text = text
-        textField.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+        textField.font = UIFont.systemFont(ofSize: 22, weight: .semibold)
         textField.textAlignment = .center
         textField.keyboardType = .decimalPad
         textField.delegate = self
@@ -363,44 +362,44 @@ extension BackgroundViewController {
         
         NSLayoutConstraint.activate([
             labelRed.bottomAnchor.constraint(equalTo: viewRGB.centerYAnchor, constant: -40),
-            labelRed.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -30),
+            labelRed.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -37.5),
             labelRed.heightAnchor.constraint(equalToConstant: 25),
-            labelRed.widthAnchor.constraint(equalToConstant: 55)
+            labelRed.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             labelRedCode.bottomAnchor.constraint(equalTo: viewRGB.centerYAnchor, constant: -40),
             labelRedCode.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: 35),
             labelRedCode.heightAnchor.constraint(equalToConstant: 25),
-            labelRedCode.widthAnchor.constraint(equalToConstant: 40)
+            labelRedCode.widthAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
             labelGreen.topAnchor.constraint(equalTo: labelRed.bottomAnchor, constant: 15),
-            labelGreen.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -30),
+            labelGreen.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -37.5),
             labelGreen.heightAnchor.constraint(equalToConstant: 25),
-            labelGreen.widthAnchor.constraint(equalToConstant: 55)
+            labelGreen.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             labelGreenCode.topAnchor.constraint(equalTo: labelRedCode.bottomAnchor, constant: 15),
             labelGreenCode.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: 35),
             labelGreenCode.heightAnchor.constraint(equalToConstant: 25),
-            labelGreenCode.widthAnchor.constraint(equalToConstant: 40)
+            labelGreenCode.widthAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
             labelBlue.topAnchor.constraint(equalTo: labelGreen.bottomAnchor, constant: 15),
-            labelBlue.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -30),
+            labelBlue.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: -37.5),
             labelBlue.heightAnchor.constraint(equalToConstant: 25),
-            labelBlue.widthAnchor.constraint(equalToConstant: 55)
+            labelBlue.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             labelBlueCode.topAnchor.constraint(equalTo: labelGreenCode.bottomAnchor, constant: 15),
             labelBlueCode.centerXAnchor.constraint(equalTo: viewRGB.centerXAnchor, constant: 35),
             labelBlueCode.heightAnchor.constraint(equalToConstant: 25),
-            labelBlueCode.widthAnchor.constraint(equalToConstant: 40)
+            labelBlueCode.widthAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
@@ -436,44 +435,44 @@ extension BackgroundViewController {
         
         NSLayoutConstraint.activate([
             labelValueRed.bottomAnchor.constraint(equalTo: viewValueOfColors.centerYAnchor, constant: -40),
-            labelValueRed.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -30),
+            labelValueRed.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -37.5),
             labelValueRed.heightAnchor.constraint(equalToConstant: 25),
-            labelValueRed.widthAnchor.constraint(equalToConstant: 55)
+            labelValueRed.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             textFieldRed.bottomAnchor.constraint(equalTo: viewValueOfColors.centerYAnchor, constant: -40),
             textFieldRed.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: 35),
             textFieldRed.heightAnchor.constraint(equalToConstant: 25),
-            textFieldRed.widthAnchor.constraint(equalToConstant: 60)
+            textFieldRed.widthAnchor.constraint(equalToConstant: 66)
         ])
         
         NSLayoutConstraint.activate([
             labelValueGreen.topAnchor.constraint(equalTo: labelValueRed.bottomAnchor, constant: 15),
-            labelValueGreen.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -30),
+            labelValueGreen.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -37.5),
             labelValueGreen.heightAnchor.constraint(equalToConstant: 25),
-            labelValueGreen.widthAnchor.constraint(equalToConstant: 55)
+            labelValueGreen.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             textFieldGreen.topAnchor.constraint(equalTo: textFieldRed.bottomAnchor, constant: 15),
             textFieldGreen.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: 35),
             textFieldGreen.heightAnchor.constraint(equalToConstant: 25),
-            textFieldGreen.widthAnchor.constraint(equalToConstant: 60)
+            textFieldGreen.widthAnchor.constraint(equalToConstant: 66)
         ])
         
         NSLayoutConstraint.activate([
             labelValueBlue.topAnchor.constraint(equalTo: labelValueGreen.bottomAnchor, constant: 15),
-            labelValueBlue.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -30),
+            labelValueBlue.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: -37.5),
             labelValueBlue.heightAnchor.constraint(equalToConstant: 25),
-            labelValueBlue.widthAnchor.constraint(equalToConstant: 55)
+            labelValueBlue.widthAnchor.constraint(equalToConstant: 65)
         ])
         
         NSLayoutConstraint.activate([
             textFieldBlue.topAnchor.constraint(equalTo: textFieldGreen.bottomAnchor, constant: 15),
             textFieldBlue.centerXAnchor.constraint(equalTo: viewValueOfColors.centerXAnchor, constant: 35),
             textFieldBlue.heightAnchor.constraint(equalToConstant: 25),
-            textFieldBlue.widthAnchor.constraint(equalToConstant: 60)
+            textFieldBlue.widthAnchor.constraint(equalToConstant: 66)
         ])
         
         NSLayoutConstraint.activate([
